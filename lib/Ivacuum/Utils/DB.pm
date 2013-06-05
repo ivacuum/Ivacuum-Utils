@@ -3,8 +3,11 @@ package Ivacuum::Utils::DB;
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
+use Exporter qw(import);
+use Ivacuum::Utils qw(print_event);
 
-our $VERSION = v1.0.0;
+our $VERSION = v1.0.1;
+our %EXPORT = qw(db_connect db_ping sql_do sql_query);
 
 #
 # Подключение к БД
@@ -32,6 +35,17 @@ sub db_ping {
 }
 
 #
+# Выполнение sql запроса и возврат идентификатора
+#
+sub sql_do {
+  my($sql) = @_;
+
+  &db_ping();
+  
+  $main::db->do($sql);
+}
+
+#
 # Кэширование и выполнение sql запроса и возврат идентификатора
 #
 sub sql_query {
@@ -43,17 +57,6 @@ sub sql_query {
   $result->execute() or die("Невозможно выполнить запрос:\n$sql\n$DBI::errstr");
 
   return $result;
-}
-
-#
-# Выполнение sql запроса и возврат идентификатора
-#
-sub sql_do {
-  my($sql) = @_;
-
-  &db_ping();
-  
-  $main::db->do($sql);
 }
 
 1;

@@ -3,8 +3,11 @@ package Ivacuum::Utils::BitTorrent;
 use 5.006;
 use strict;
 use warnings FATAL => 'all';
+use Exporter qw(import);
+use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.0;
+our $VERSION = v1.0.1;
+our %EXPORT = qw(btt_msg btt_msg_die ip2long);
 
 sub _dechunk {
   my $chunks = shift;
@@ -125,26 +128,46 @@ sub bdecode {
 sub btt_msg {
   my($session, $msg) = @_;
 
-  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nServer: $main::g_server_string\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode($msg);
+  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nServer: nginx\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode($msg);
 
   return &close_connection($session);
 }
 
 #
 # Ошибка трекера
+# Используются $main::event и $main::g_announce_interval
 #
 sub btt_msg_die {
   my($session, $msg) = @_;
 
   return &close_connection($session) if $main::event eq 'stopped';
 
-  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nServer: $main::g_server_string\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode({
+  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nServer: nginx\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode({
     'min interval'   => $main::g_announce_interval,
     'failure reason' => $msg,
     'warning reason' => $msg
   });
 
   return &close_connection($session);
+}
+
+#
+# converts an IP address x.x.x.x into a long IP number as used by ulog
+#
+sub ip2long {
+  my $ip_address = shift;
+  my(@octets, $octet, $ip_number, $number_convert);
+
+  chomp $ip_address;
+  @octets = split /\./, $ip_address;
+  $ip_number = 0;
+
+  foreach $octet (@octets) {
+    $ip_number <<= 8;
+    $ip_number |= $octet;
+  }
+
+  return $ip_number;
 }
 
 1;
