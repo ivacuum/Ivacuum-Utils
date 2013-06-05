@@ -7,7 +7,8 @@ use Exporter qw(import);
 use Ivacuum::Utils qw(print_event);
 
 our $VERSION = v1.0.1;
-our %EXPORT = qw(db_connect db_ping sql_do sql_query);
+our @EXPORT = qw(db_connect db_ping sql_do sql_query);
+our @EXPORT_OK = @EXPORT;
 
 #
 # Подключение к БД

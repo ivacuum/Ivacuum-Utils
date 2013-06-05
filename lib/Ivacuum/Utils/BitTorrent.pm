@@ -7,7 +7,8 @@ use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
 our $VERSION = v1.0.1;
-our %EXPORT = qw(btt_msg btt_msg_die ip2long);
+our @EXPORT = qw(btt_msg btt_msg_die ip2long);
+our @EXPORT_OK = @EXPORT;
 
 sub _dechunk {
   my $chunks = shift;
