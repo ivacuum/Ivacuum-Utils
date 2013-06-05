@@ -16,16 +16,16 @@ name: Ivacuum-Utils
 provides:
   Ivacuum::Utils:
     file: lib/Ivacuum/Utils.pm
-    version: v1.0.0
+    version: v1.0.2
   Ivacuum::Utils::BitTorrent:
     file: lib/Ivacuum/Utils/BitTorrent.pm
-    version: v1.0.0
+    version: v1.0.2
   Ivacuum::Utils::DB:
     file: lib/Ivacuum/Utils/DB.pm
-    version: v1.0.0
+    version: v1.0.2
   Ivacuum::Utils::HTTP:
     file: lib/Ivacuum/Utils/HTTP.pm
-    version: v1.0.0
+    version: v1.0.2
 resources:
   license: http://opensource.org/licenses/artistic-license.php
-version: v1.0.0
+version: v1.0.2
