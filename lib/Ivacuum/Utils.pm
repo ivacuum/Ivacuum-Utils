@@ -6,7 +6,7 @@ use warnings FATAL => 'all';
 use Exporter qw(import);
 use POSIX qw(strftime);
 
-our $VERSION = v1.0.2;
+our $VERSION = v1.0.3;
 our @EXPORT = qw(close_connection date_format html_msg html_msg_simple num_format parse_qs print_event);
 our @EXPORT_OK = @EXPORT;
 
