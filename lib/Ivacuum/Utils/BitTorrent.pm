@@ -129,7 +129,7 @@ sub bdecode {
 sub btt_msg {
   my($session, $msg) = @_;
 
-  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nServer: nginx\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode($msg);
+  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode($msg);
 
   return &close_connection($session);
 }
@@ -143,7 +143,7 @@ sub btt_msg_die {
 
   return &close_connection($session) if $main::event eq 'stopped';
 
-  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nServer: nginx\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode({
+  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode({
     'min interval'   => $main::g_announce_interval,
     'failure reason' => $msg,
     'warning reason' => $msg
