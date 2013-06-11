@@ -6,7 +6,7 @@ use warnings FATAL => 'all';
 use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.5;
+our $VERSION = v1.0.6;
 our @EXPORT = qw(btt_msg btt_msg_die ip2long);
 our @EXPORT_OK = @EXPORT;
 
@@ -150,7 +150,7 @@ sub btt_msg_die {
 
   return &close_connection($session) if $main::event eq 'stopped';
   
-  $params = {
+  my $params = {
     'min interval'   => $main::g_announce_interval,
     'failure reason' => $msg,
     'warning reason' => $msg,
