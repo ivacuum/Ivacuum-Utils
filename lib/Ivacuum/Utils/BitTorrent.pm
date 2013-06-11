@@ -6,7 +6,7 @@ use warnings FATAL => 'all';
 use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.4;
+our $VERSION = v1.0.5;
 our @EXPORT = qw(btt_msg btt_msg_die ip2long);
 our @EXPORT_OK = @EXPORT;
 
@@ -129,7 +129,14 @@ sub bdecode {
 sub btt_msg {
   my($session, $msg) = @_;
 
-  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode($msg);
+  print $session <<HTML;
+HTTP/1.1 200 OK
+Date: {strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime)}
+Connection: close
+Content-type: text/plain
+
+{bencode($msg)}
+HTML
 
   return &close_connection($session);
 }
@@ -142,12 +149,21 @@ sub btt_msg_die {
   my($session, $msg) = @_;
 
   return &close_connection($session) if $main::event eq 'stopped';
-
-  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nConnection: close\r\nContent-type: text/plain\r\n\r\n", bencode({
+  
+  $params = {
     'min interval'   => $main::g_announce_interval,
     'failure reason' => $msg,
-    'warning reason' => $msg
-  });
+    'warning reason' => $msg,
+  };
+
+  print $session <<HTML;
+HTTP/1.1 200 OK
+Date: {strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime)}
+Connection: close
+Content-type: text/plain
+
+{bencode($params)}
+HTML
 
   return &close_connection($session);
 }

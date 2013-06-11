@@ -6,7 +6,7 @@ use warnings FATAL => 'all';
 use Exporter qw(import);
 use POSIX qw(strftime);
 
-our $VERSION = v1.0.4;
+our $VERSION = v1.0.5;
 our @EXPORT = qw(close_connection date_format html_msg html_msg_simple num_format parse_qs print_event);
 our @EXPORT_OK = @EXPORT;
 
@@ -49,7 +49,41 @@ sub get_timestamp {
 sub html_msg {
   my($session, $title, $msg) = @_;
 
-  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nConnection: close\r\nContent-type: text/html; charset=utf-8\r\nCache-Control: no-cache, pre-check=0, post-check=0\r\nExpires: Fri, 1 Jan 2010 00:00:00 GMT\r\nPragma: no-cache\r\n\r\n".'<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><title>', $title, '</title><link rel="shortcut icon" href="//ivacuum.org/i/_/server_network.png"><link rel="stylesheet" href="//ivacuum.org/i/bootstrap/2.3.1/css/bootstrap.min.css"><link rel="stylesheet" href="//ivacuum.org/i/bootstrap/2.3.1/expansion.css"><link rel="stylesheet" href="//ivacuum.org/i/bootstrap/2.3.1/css/bootstrap-responsive.min.css"></head><body><div class="wrap-content"><div class="navbar navbar-fixed-top"><div class="navbar-inner"><div class="container"><a class="brand" href="/stats">', $main::g_sitename, '</a></div></div></div><div class="container">', $msg, '<div class="wrap-push"></div></div></div></body></html>';
+  print $session <<HTML;
+HTTP/1.1 200 OK
+Date: {strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime)}
+Connection: close
+Content-type: text/html; charset=utf-8
+Cache-Control: no-cache, pre-check=0, post-check=0
+Expires: Fri, 1 Jan 2010 00:00:00 GMT
+Pragma: no-cache
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>${title}</title>
+  <link rel="shortcut icon" href="//ivacuum.org/i/_/server_network.png">
+  <link rel="stylesheet" href="//ivacuum.org/i/bootstrap/2.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//ivacuum.org/i/bootstrap/2.3.1/expansion.css">
+</head>
+<body>
+<div class="wrap-content">
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/stats">${main::g_sitename}</a>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    ${msg}
+    <div class="wrap-push"></div>
+  </div>
+</div>
+</body>
+</html>
+HTML
 
   return &close_connection($session);
 }
@@ -57,7 +91,17 @@ sub html_msg {
 sub html_msg_simple {
   my($session, $msg) = @_;
 
-  print $session "HTTP/1.1 200 OK\r\nDate: ", strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime), "\r\nConnection: close\r\nContent-type: text/html; charset=utf-8\r\nCache-Control: no-cache, pre-check=0, post-check=0\r\nExpires: Fri, 1 Jan 2010 00:00:00 GMT\r\nPragma: no-cache\r\n\r\n", $msg;
+  print $session <<HTML;
+HTTP/1.1 200 OK
+Date: {strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime)}
+Connection: close
+Content-type: text/html; charset=utf-8
+Cache-Control: no-cache, pre-check=0, post-check=0
+Expires: Fri, 1 Jan 2010 00:00:00 GMT
+Pragma: no-cache
+
+${msg}
+HTML
 
   return &close_connection($session);
 }
