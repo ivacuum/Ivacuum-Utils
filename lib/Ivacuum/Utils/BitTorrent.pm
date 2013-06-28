@@ -4,7 +4,7 @@ use common::sense;
 use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.8;
+our $VERSION = v1.0.9;
 our @EXPORT = qw(btt_msg btt_msg_die ip2long);
 our @EXPORT_OK = @EXPORT;
 
@@ -135,8 +135,9 @@ Date: {strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime)}
 Connection: close
 Content-type: text/plain
 
-{bencode($msg)}
 HTML
+
+  print $session bencode($msg);
 
   return &close_connection($session);
 }
@@ -161,8 +162,9 @@ Date: {strftime('%a, %e %b %Y %H:%M:%S GMT', gmtime)}
 Connection: close
 Content-type: text/plain
 
-{bencode($params)}
 HTML
+
+  print $session bencode($params);
 
   return &close_connection($session);
 }
