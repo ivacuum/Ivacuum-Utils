@@ -6,9 +6,12 @@ use warnings FATAL => 'all';
 use Exporter qw(import);
 use POSIX qw(strftime);
 
-our $VERSION = v1.0.6;
+our $VERSION = v1.0.7;
 our @EXPORT = qw(close_connection date_format html_msg html_msg_simple num_format parse_qs print_event);
 our @EXPORT_OK = @EXPORT;
+
+my $g_debug    = 0;
+my $g_sitename = '';
 
 #
 # Завершение сеанса связи с клиентом
@@ -44,7 +47,7 @@ sub get_timestamp {
 
 #
 # Оформленное сообщение
-# Используется $main::g_sitename
+# Используется $g_sitename
 #
 sub html_msg {
   my($session, $title, $msg) = @_;
@@ -72,7 +75,7 @@ Pragma: no-cache
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
-        <a class="brand" href="/stats">${main::g_sitename}</a>
+        <a class="brand" href="/stats">${g_sitename}</a>
       </div>
     </div>
   </div>
@@ -133,12 +136,20 @@ sub parse_qs {
 }
 
 #
-# Выводит информацию о событии (при $main::g_debug > 0)
+# Выводит информацию о событии (при $g_debug > 0)
 #
 sub print_event {
   my($code, $text) = @_;
 
-  printf("%s: %s: %s\n", &get_timestamp(), $code, $text) if $main::g_debug > 1 or $code eq 'CORE';
+  printf("%s: %s: %s\n", &get_timestamp(), $code, $text) if $g_debug > 1 or $code eq 'CORE';
+}
+
+sub set_debug_level {
+  $g_debug = shift;
+}
+
+sub set_sitename {
+  $g_sitename = shift;
 }
 
 1;
