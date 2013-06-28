@@ -1,12 +1,10 @@
 package Ivacuum::Utils;
 
-use 5.006;
-use strict;
-use warnings FATAL => 'all';
+use common::sense;
 use Exporter qw(import);
 use POSIX qw(strftime);
 
-our $VERSION = v1.0.7;
+our $VERSION = v1.0.8;
 our @EXPORT = qw(close_connection date_format html_msg html_msg_simple num_format parse_qs print_event);
 our @EXPORT_OK = @EXPORT;
 
@@ -47,7 +45,6 @@ sub get_timestamp {
 
 #
 # Оформленное сообщение
-# Используется $g_sitename
 #
 sub html_msg {
   my($session, $title, $msg) = @_;

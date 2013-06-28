@@ -1,12 +1,10 @@
 package Ivacuum::Utils::HTTP;
 
-use 5.006;
-use strict;
-use warnings FATAL => 'all';
+use common::sense;
 use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.7;
+our $VERSION = v1.0.8;
 our @EXPORT = qw(http_not_found http_redirect http_redirect_internal);
 our @EXPORT_OK = @EXPORT;
 

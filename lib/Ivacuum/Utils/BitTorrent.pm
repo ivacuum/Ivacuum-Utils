@@ -1,14 +1,14 @@
 package Ivacuum::Utils::BitTorrent;
 
-use 5.006;
-use strict;
-use warnings FATAL => 'all';
+use common::sense;
 use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.7;
+our $VERSION = v1.0.8;
 our @EXPORT = qw(btt_msg btt_msg_die ip2long);
 our @EXPORT_OK = @EXPORT;
+
+my $g_announce_interval = 300;
 
 sub _dechunk {
   my $chunks = shift;
@@ -143,15 +143,14 @@ HTML
 
 #
 # Ошибка трекера
-# Используются $main::event и $main::g_announce_interval
 #
 sub btt_msg_die {
-  my($session, $msg) = @_;
+  my($session, $msg, $event) = @_;
 
-  return &close_connection($session) if $main::event eq 'stopped';
+  return &close_connection($session) if $event eq 'stopped';
   
   my $params = {
-    'min interval'   => $main::g_announce_interval,
+    'min interval'   => $g_announce_interval,
     'failure reason' => $msg,
     'warning reason' => $msg,
   };
@@ -185,6 +184,10 @@ sub ip2long {
   }
 
   return $ip_number;
+}
+
+sub set_announce_interval {
+  $g_announce_interval = shift;
 }
 
 1;
