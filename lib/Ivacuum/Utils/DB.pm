@@ -4,8 +4,8 @@ use common::sense;
 use Exporter qw(import);
 use Ivacuum::Utils qw(print_event);
 
-our $VERSION = v1.0.15;
-our @EXPORT = qw(db_connect db_ping sql_do sql_query);
+our $VERSION = v1.0.16;
+our @EXPORT = qw(db_connect db_disconnect db_ping sql_do sql_query);
 our @EXPORT_OK = @EXPORT;
 
 my $db;

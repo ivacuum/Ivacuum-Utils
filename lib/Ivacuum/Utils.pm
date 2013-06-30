@@ -5,7 +5,7 @@ use Exporter qw(import);
 use JSON qw(decode_json);
 use POSIX qw(strftime);
 
-our $VERSION = v1.0.15;
+our $VERSION = v1.0.16;
 our @EXPORT = qw(close_connection date_format html_msg html_msg_simple load_json_config num_format parse_qs print_event);
 our @EXPORT_OK = @EXPORT;
 
