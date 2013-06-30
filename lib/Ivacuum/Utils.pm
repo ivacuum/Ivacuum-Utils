@@ -4,7 +4,7 @@ use common::sense;
 use Exporter qw(import);
 use POSIX qw(strftime);
 
-our $VERSION = v1.0.9;
+our $VERSION = v1.0.10;
 our @EXPORT = qw(close_connection date_format html_msg html_msg_simple num_format parse_qs print_event);
 our @EXPORT_OK = @EXPORT;
 
@@ -104,6 +104,19 @@ ${msg}
 HTML
 
   return &close_connection($session);
+}
+
+#
+# Загрузка настроек из файла в формате json
+#
+sub load_json_config {
+  my($file, $cfg) = @_;
+  
+  local $/;
+  open my $fh, '<', "./$file";
+  my $json = <$fh>;
+  my $config = decode_json($json);
+  @$cfg{keys %$config} = values %$config;
 }
 
 #

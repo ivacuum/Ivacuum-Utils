@@ -4,7 +4,7 @@ use common::sense;
 use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.9;
+our $VERSION = v1.0.10;
 our @EXPORT = qw(http_not_found http_redirect http_redirect_internal);
 our @EXPORT_OK = @EXPORT;
 
