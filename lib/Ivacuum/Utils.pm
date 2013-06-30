@@ -4,8 +4,8 @@ use common::sense;
 use Exporter qw(import);
 use POSIX qw(strftime);
 
-our $VERSION = v1.0.10;
-our @EXPORT = qw(close_connection date_format html_msg html_msg_simple num_format parse_qs print_event);
+our $VERSION = v1.0.11;
+our @EXPORT = qw(close_connection date_format html_msg html_msg_simple load_json_config num_format parse_qs print_event);
 our @EXPORT_OK = @EXPORT;
 
 my $g_debug    = 1;
