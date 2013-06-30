@@ -4,14 +4,14 @@ use common::sense;
 use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.12;
+our $VERSION = v1.0.13;
 our @EXPORT = qw(http_not_found http_redirect http_redirect_internal);
 our @EXPORT_OK = @EXPORT;
 
 sub http_not_found {
   my($session, $url) = @_;
 
-  my $msg << HTML;
+  my $msg <<HTML;
 <!DOCTYPE html>
 <html>
 <head>
