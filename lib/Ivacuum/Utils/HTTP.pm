@@ -4,14 +4,14 @@ use common::sense;
 use Exporter qw(import);
 use Ivacuum::Utils qw(close_connection);
 
-our $VERSION = v1.0.14;
+our $VERSION = v1.0.15;
 our @EXPORT = qw(http_not_found http_redirect http_redirect_internal);
 our @EXPORT_OK = @EXPORT;
 
 sub http_not_found {
   my($session, $url) = @_;
 
-  my $msg <<MYHTML;
+  my $msg = <<HTML;
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +22,7 @@ sub http_not_found {
 <p>The requested URL /${url} was not found on this server.</p>
 </body>
 </html>
-MYHTML
+HTML
 
   print $session <<HTML;
 HTTP/1.1 404 Not Found
