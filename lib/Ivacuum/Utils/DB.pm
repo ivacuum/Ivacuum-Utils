@@ -4,8 +4,8 @@ use common::sense;
 use Exporter qw(import);
 use Ivacuum::Utils qw(print_event);
 
-our $VERSION = v1.0.16;
-our @EXPORT = qw(db_connect db_disconnect db_ping sql_do sql_query);
+our $VERSION = v1.0.17;
+our @EXPORT = qw(db_connect db_disconnect db_ping get_db sql_do sql_query);
 our @EXPORT_OK = @EXPORT;
 
 my $db;
@@ -29,9 +29,7 @@ sub db_connect {
   &print_event('CORE', 'Успешное подключение к БД');
 }
 
-sub db_disconnect {
-  $db->disconnect();
-}
+sub db_disconnect { $db->disconnect(); }
 
 #
 # Проверка связи с БД
@@ -43,13 +41,9 @@ sub db_ping {
   }
 }
 
-sub set_db {
-  $db = shift;
-}
-
-sub set_db_credentials {
-  ($db_host, $db_name, $db_user, $db_pass) = @_;
-}
+sub get_db { return \$db; }
+sub set_db { $db = shift; }
+sub set_db_credentials { ($db_host, $db_name, $db_user, $db_pass) = @_; }
 
 #
 # Выполнение sql запроса и возврат идентификатора
