@@ -26,6 +26,8 @@ sub db_connect {
     $db = DBI->connect('DBI:mysql:database=' . $db_name . ';mysql_socket=' . $db_host, $db_user, $db_pass);
   }
 
+  $db->do("set session sql_mode='NO_ENGINE_SUBSTITUTION'");
+
   &print_event('CORE', 'Успешное подключение к БД');
 }
 
